@@ -11,6 +11,7 @@ import { fileURLToPath } from "url";
 import { v4 as uuidv4 } from "uuid";
 import { registerAdmin } from "./controllers/auth.js";
 import authRoutes from "./routes/auth.js";
+import areaRoutes from "./routes/area.js";
 
 //CONFIGURATIONS
 const __filename = fileURLToPath(import.meta.url);
@@ -45,6 +46,7 @@ app.post("/auth/registerAdmin", adminUpload.single("picture"), registerAdmin);
 
 //ROUTES
 app.use("/auth", authRoutes);
+app.use("/areas", areaRoutes);
 
 //MOONGOSE SETUP
 const PORT = process.env.PORT || 6001;

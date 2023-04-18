@@ -18,7 +18,7 @@ const Areas = () => {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
-    const data = response.json();
+    const data = await response.json();
     dispatch(setAreas({ areas: data }));
   };
 
@@ -34,19 +34,21 @@ const Areas = () => {
     getAreas();
   }, []); //eslint-disable-line
 
-  const areasToDisplay = areas.slice(offset, offset + PER_PAGE).map((area) => (
-    <tr key={area._id}>
-      <td className="border px-4 py-2">{area.name}</td>
-      <td className="border px-4 py-2">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
-          Edit
-        </button>
-        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-          Delete
-        </button>
-      </td>
-    </tr>
-  ));
+  const areasToDisplay = areas
+    .slice(offset, offset + PER_PAGE)
+    .map((area) => (
+      <tr key={area._id}>
+        <td className="border px-4 py-2">{area.name}</td>
+        <td className="border px-4 py-2">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2" >
+            Edit
+          </button>
+          <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" >
+            Delete
+          </button>
+        </td>
+      </tr>
+    ));
 
   return (
     <>
