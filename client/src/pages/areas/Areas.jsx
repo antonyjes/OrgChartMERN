@@ -13,6 +13,7 @@ const Areas = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [operation, setOperation] = useState("");
+  const [currentArea, setCurrentArea] = useState([]);
 
   const getAreas = async () => {
     const response = await fetch("http://localhost:3003/areas", {
@@ -35,21 +36,26 @@ const Areas = () => {
     getAreas();
   }, []); //eslint-disable-line
 
-  const areasToDisplay = areas
-    .slice(offset, offset + PER_PAGE)
-    .map((area) => (
-      <tr key={area._id}>
-        <td className="border px-4 py-2">{area.name}</td>
-        <td className="border px-4 py-2">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2" >
-            Edit
-          </button>
-          <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" >
-            Delete
-          </button>
-        </td>
-      </tr>
-    ));
+  const areasToDisplay = areas.slice(offset, offset + PER_PAGE).map((area) => (
+    <tr key={area._id}>
+      <td className="border px-4 py-2">{area.name}</td>
+      <td className="border px-4 py-2">
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+          onClick={() => {
+            setShowModal(true);
+            setOperation("Edit");
+            setCurrentArea(area);
+          }}
+        >
+          Edit
+        </button>
+        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+          Delete
+        </button>
+      </td>
+    </tr>
+  ));
 
   return (
     <>
@@ -61,8 +67,10 @@ const Areas = () => {
             <h1 className="text-3xl font-bold mb-4">Areas</h1>
             <button
               className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
-              onClick={() => {setShowModal(true)
-              setOperation("Create")}}
+              onClick={() => {
+                setShowModal(true);
+                setOperation("Create");
+              }}
             >
               New area
             </button>
@@ -91,11 +99,9 @@ const Areas = () => {
           </div>
         </div>
       </div>
-      {
-        showModal && (
-          <ModalAreas setShowModal={setShowModal} operation={operation} />
-        )
-      }
+      {showModal && (
+        <ModalAreas setShowModal={setShowModal} operation={operation} currentArea={currentArea} />
+      )}
     </>
   );
 };

@@ -1,4 +1,51 @@
-const ModalAreas = ({ setShowModal, operation }) => {
+import { useState } from "react";
+import { useSelector } from "react-redux";
+
+const ModalAreas = ({ setShowModal, operation, currentArea }) => {
+  const [name, setName] = useState(currentArea.name || "");
+  const token = useSelector((state) => state.token);
+
+  const createArea = async () => {
+    const savedAreaResponse = await fetch(
+      "http://localhost:3003/areas/createArea",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: name }),
+      }
+    );
+
+    const savedArea = await savedAreaResponse.json();
+
+    if (savedArea) {
+      setShowModal(false);
+    }
+  };
+
+  const editArea = async () => {
+    const editAreaResponse = await fetch(`http://localhost:3003/areas/${currentArea._id}/editArea`,{
+        method: "PATCH",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({name: name})
+    });
+    const updatedArea = editAreaResponse.json();
+    if(updatedArea){
+        console.log("Area updated");
+        setShowModal(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (operation === "Create") await createArea();
+    if (operation === "Edit") await editArea();
+  };
   return (
     <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-non">
       <div className="flex items-center justify-center min-h-screen">
@@ -12,7 +59,7 @@ const ModalAreas = ({ setShowModal, operation }) => {
               X
             </button>
           </div>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="p-6">
               <div className="mb-6">
                 <label
@@ -24,8 +71,10 @@ const ModalAreas = ({ setShowModal, operation }) => {
                 <input
                   type="text"
                   id="area"
+                  value={name}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Gerente"
+                  onChange={(e) => setName(e.target.value)}
                   required
                 />
               </div>
