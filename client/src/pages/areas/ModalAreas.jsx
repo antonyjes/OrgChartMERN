@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
-const ModalAreas = ({ setShowModal, operation, currentArea }) => {
+const ModalAreas = ({ setShowModal, operation, currentArea, getAreas }) => {
   const [name, setName] = useState(currentArea.name || "");
   const token = useSelector((state) => state.token);
 
@@ -22,22 +22,27 @@ const ModalAreas = ({ setShowModal, operation, currentArea }) => {
 
     if (savedArea) {
       setShowModal(false);
+      getAreas();
     }
   };
 
   const editArea = async () => {
-    const editAreaResponse = await fetch(`http://localhost:3003/areas/${currentArea._id}/editArea`,{
+    const editAreaResponse = await fetch(
+      `http://localhost:3003/areas/${currentArea._id}/editArea`,
+      {
         method: "PATCH",
         headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({name: name})
-    });
+        body: JSON.stringify({ name: name }),
+      }
+    );
     const updatedArea = editAreaResponse.json();
-    if(updatedArea){
-        console.log("Area updated");
-        setShowModal(false);
+    if (updatedArea) {
+      console.log("Area updated");
+      setShowModal(false);
+      getAreas();
     }
   };
 

@@ -100,7 +100,7 @@ const Areas = () => {
         </div>
       </div>
       {showModal && (
-        <ModalAreas setShowModal={setShowModal} operation={operation} currentArea={currentArea} />
+        <ModalAreas setShowModal={setShowModal} operation={operation} currentArea={currentArea} getAreas={getAreas} />
       )}
     </>
   );
