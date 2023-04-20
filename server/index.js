@@ -12,6 +12,9 @@ import { v4 as uuidv4 } from "uuid";
 import { registerAdmin } from "./controllers/auth.js";
 import authRoutes from "./routes/auth.js";
 import areaRoutes from "./routes/area.js";
+import userRoutes from "./routes/user.js";
+import { verifyToken } from "./middleware/auth.js";
+import { createUser } from "./controllers/user.js";
 
 //CONFIGURATIONS
 const __filename = fileURLToPath(import.meta.url);
@@ -39,14 +42,32 @@ const adminStorage = multer.diskStorage({
   },
 });
 
+const userStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/assets/users");
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + uuidv4();
+    cb(null, uniqueSuffix + "-" + file.originalname);
+  },
+});
+
 const adminUpload = multer({ storage: adminStorage });
+const userUpload = multer({ storage: userStorage });
 
 //ROUTES WITH FILES
 app.post("/auth/registerAdmin", adminUpload.single("picture"), registerAdmin);
+app.post(
+  "/users/registerUser",
+  userUpload.single("picture"),
+  verifyToken,
+  createUser
+);
 
 //ROUTES
 app.use("/auth", authRoutes);
 app.use("/areas", areaRoutes);
+app.use("/users", userRoutes);
 
 //MOONGOSE SETUP
 const PORT = process.env.PORT || 6001;

@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import Areas from "./pages/areas/Areas";
+import Users from "./pages/users/Users";
+import NewUser from "./pages/users/NewUser";
 
 function App() {
   const isAuth = Boolean(useSelector((state) => state.token));
@@ -19,6 +21,14 @@ function App() {
           <Route
             path="/areas"
             element={isAuth ? <Areas /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/users"
+            element={isAuth ? <Users /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/newUser"
+            element={isAuth ? <NewUser /> : <Navigate to="/" />}
           />
         </Routes>
       </BrowserRouter>
