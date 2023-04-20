@@ -32,6 +32,22 @@ const Areas = () => {
     setCurrentPage(selectedPage);
   };
 
+  const handleDelete = async ({ userId }) => {
+    const response = await fetch(
+      `http://localhost:3003/users/${userId}/delete`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-type": "application/json",
+        },
+      }
+    );
+    console.log(response);
+    console.log("User deleted");
+    getAreas();
+  };
+
   useEffect(() => {
     getAreas();
   }, []); //eslint-disable-line
@@ -50,7 +66,10 @@ const Areas = () => {
         >
           Edit
         </button>
-        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+        <button
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => handleDelete(area._id)}
+        >
           Delete
         </button>
       </td>
@@ -100,7 +119,12 @@ const Areas = () => {
         </div>
       </div>
       {showModal && (
-        <ModalAreas setShowModal={setShowModal} operation={operation} currentArea={currentArea} getAreas={getAreas} />
+        <ModalAreas
+          setShowModal={setShowModal}
+          operation={operation}
+          currentArea={currentArea}
+          getAreas={getAreas}
+        />
       )}
     </>
   );
