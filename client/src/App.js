@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage";
 import Areas from "./pages/areas/Areas";
 import Users from "./pages/users/Users";
 import NewUser from "./pages/users/NewUser";
+import EditUser from "./pages/users/EditUser";
 
 function App() {
   const isAuth = Boolean(useSelector((state) => state.token));
@@ -29,6 +30,10 @@ function App() {
           <Route
             path="/newUser"
             element={isAuth ? <NewUser /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/editUser/:userId"
+            element={isAuth ? <EditUser /> : <Navigate to="/" />}
           />
         </Routes>
       </BrowserRouter>

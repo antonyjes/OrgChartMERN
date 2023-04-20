@@ -14,7 +14,7 @@ import authRoutes from "./routes/auth.js";
 import areaRoutes from "./routes/area.js";
 import userRoutes from "./routes/user.js";
 import { verifyToken } from "./middleware/auth.js";
-import { createUser } from "./controllers/user.js";
+import { createUser, editUser } from "./controllers/user.js";
 
 //CONFIGURATIONS
 const __filename = fileURLToPath(import.meta.url);
@@ -63,6 +63,7 @@ app.post(
   verifyToken,
   createUser
 );
+app.patch("/users/:userId/editUser", verifyToken, userUpload.single("picture"), editUser);
 
 //ROUTES
 app.use("/auth", authRoutes);
