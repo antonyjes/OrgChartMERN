@@ -32,9 +32,9 @@ const Areas = () => {
     setCurrentPage(selectedPage);
   };
 
-  const handleDelete = async ({ userId }) => {
+  const handleDelete = async ( userId ) => {
     const response = await fetch(
-      `http://localhost:3003/users/${userId}/delete`,
+      `http://localhost:3003/areas/${userId}/delete`,
       {
         method: "DELETE",
         headers: {

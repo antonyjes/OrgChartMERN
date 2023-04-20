@@ -41,3 +41,14 @@ export const editArea = async (req, res) => {
     res.status(409).json({ message: error.message });
   }
 };
+
+// DELETE
+export const deleteArea = async (req, res) => {
+  try {
+    const { areaId } = req.params;
+    const deletedArea = await Area.findByIdAndDelete(areaId);
+    res.status(200).json(deletedArea);
+  } catch (error) {
+    res.status(409).json({ message: error.message });
+  }
+};
