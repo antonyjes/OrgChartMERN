@@ -8,6 +8,7 @@ import NewUser from "./pages/users/NewUser";
 import EditUser from "./pages/users/EditUser";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import EmployeesOrg from "./pages/employees/EmployeesOrg";
 
 function App() {
   const isAuth = Boolean(useSelector((state) => state.token));
@@ -37,6 +38,10 @@ function App() {
           <Route
             path="/editUser/:userId"
             element={isAuth ? <EditUser /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/organigrama"
+            element={isAuth ? <EmployeesOrg /> : <Navigate to="/" />}
           />
         </Routes>
       </BrowserRouter>

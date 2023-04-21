@@ -13,6 +13,7 @@ import { registerAdmin } from "./controllers/auth.js";
 import authRoutes from "./routes/auth.js";
 import areaRoutes from "./routes/area.js";
 import userRoutes from "./routes/user.js";
+import employeeRoutes from "./routes/employee.js";
 import { verifyToken } from "./middleware/auth.js";
 import { createUser, editUser } from "./controllers/user.js";
 
@@ -69,6 +70,7 @@ app.patch("/users/:userId/editUser", verifyToken, userUpload.single("picture"), 
 app.use("/auth", authRoutes);
 app.use("/areas", areaRoutes);
 app.use("/users", userRoutes);
+app.use("/employees", employeeRoutes);
 
 //MOONGOSE SETUP
 const PORT = process.env.PORT || 6001;
