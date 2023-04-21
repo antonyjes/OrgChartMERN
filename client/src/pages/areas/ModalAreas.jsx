@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const ModalAreas = ({ setShowModal, operation, currentArea, getAreas }) => {
   const [name, setName] = useState(currentArea.name || "");
@@ -22,6 +23,7 @@ const ModalAreas = ({ setShowModal, operation, currentArea, getAreas }) => {
 
     if (savedArea) {
       setShowModal(false);
+      toast.success("Area created!")
       getAreas();
     }
   };
@@ -40,7 +42,7 @@ const ModalAreas = ({ setShowModal, operation, currentArea, getAreas }) => {
     );
     const updatedArea = editAreaResponse.json();
     if (updatedArea) {
-      console.log("Area updated");
+      toast.success("Area updated!");
       setShowModal(false);
       getAreas();
     }

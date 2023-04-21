@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import Dropzone from "react-dropzone";
+import { toast } from "react-toastify";
 
 const FormEdit = ({ userData, setUserData }) => {
   const token = useSelector((state) => state.token);
@@ -42,6 +43,7 @@ const FormEdit = ({ userData, setUserData }) => {
 
     if (updatedUser) {
       setUserData(updatedUser);
+      toast.success("User updated!");
       navigate("/users");
     }
   };

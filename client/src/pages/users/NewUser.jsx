@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import Sidebar from "../../components/Sidebar";
 import Aside from "../../components/Aside";
 import Dropzone from "react-dropzone";
+import { toast } from "react-toastify";
 
 const NewUser = () => {
   const token = useSelector((state) => state.token);
@@ -37,6 +38,7 @@ const NewUser = () => {
     const savedUser = await savedUserResponse.json();
 
     if (savedUser) {
+      toast.success("User created!");
       navigate("/users");
     }
   };

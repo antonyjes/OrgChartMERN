@@ -5,6 +5,7 @@ import Aside from "../../components/Aside";
 import Sidebar from "../../components/Sidebar";
 import ReactPaginate from "react-paginate";
 import ModalAreas from "./ModalAreas";
+import {toast} from "react-toastify";
 
 const Areas = () => {
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ const Areas = () => {
       }
     );
     console.log(response);
-    console.log("User deleted");
+    toast.success("Area deleted!");
     getAreas();
   };
 
