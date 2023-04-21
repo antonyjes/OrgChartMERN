@@ -6,9 +6,12 @@ import Areas from "./pages/areas/Areas";
 import Users from "./pages/users/Users";
 import NewUser from "./pages/users/NewUser";
 import EditUser from "./pages/users/EditUser";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const isAuth = Boolean(useSelector((state) => state.token));
+
 
   return (
     <div className="App">
@@ -37,6 +40,7 @@ function App() {
           />
         </Routes>
       </BrowserRouter>
+      <ToastContainer />
     </div>
   );
 }

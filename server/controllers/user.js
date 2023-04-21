@@ -80,3 +80,21 @@ export const editUser = async (req, res) => {
     res.status(409).json({ message: error.message });
   }
 };
+
+// DELETE
+export const deleteUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const deletedUser = await User.findByIdAndDelete(userId);
+    const filePath = "./public/assets/users/" + deletedUser.picturePath;
+    if (fs.existsSync(filePath)) {
+      fs.unlink(filePath, function (err) {
+        if (err) throw err;
+        console.log("File deleted!");
+      });
+    }
+    res.status(200).json(deletedUser);
+  } catch (error) {
+    res.status(409).json({ message: error.message });
+  }
+};
