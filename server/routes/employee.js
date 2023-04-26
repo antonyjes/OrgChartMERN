@@ -5,6 +5,6 @@ import { getEmployeesOrg } from "../controllers/employee.js";
 const router = express.Router();
 
 // READ
-router.get("/org", verifyToken, getEmployeesOrg);
+router.get("/", verifyToken, getEmployeesOrg);
 
 export default router;

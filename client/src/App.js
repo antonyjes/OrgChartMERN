@@ -13,7 +13,6 @@ import EmployeesOrg from "./pages/employees/EmployeesOrg";
 function App() {
   const isAuth = Boolean(useSelector((state) => state.token));
 
-
   return (
     <div className="App">
       <BrowserRouter>
