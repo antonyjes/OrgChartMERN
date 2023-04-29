@@ -16,6 +16,7 @@ import userRoutes from "./routes/user.js";
 import employeeRoutes from "./routes/employee.js";
 import { verifyToken } from "./middleware/auth.js";
 import { createUser, editUser } from "./controllers/user.js";
+import { createEmployee } from "./controllers/employee.js";
 
 //CONFIGURATIONS
 const __filename = fileURLToPath(import.meta.url);
@@ -53,8 +54,19 @@ const userStorage = multer.diskStorage({
   },
 });
 
+const employeeStorage = multer.diskStorage({
+  destination: function (req, file, cb){
+    cb(null, "public/assets/employees");
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + uuidv4();
+    cb(null, uniqueSuffix + "-" + file.originalname);
+  }
+})
+
 const adminUpload = multer({ storage: adminStorage });
 const userUpload = multer({ storage: userStorage });
+const employeeUpload = multer({ storage: employeeStorage});
 
 //ROUTES WITH FILES
 app.post("/auth/registerAdmin", adminUpload.single("picture"), registerAdmin);
@@ -64,6 +76,7 @@ app.post(
   verifyToken,
   createUser
 );
+app.post("/employees/createEmployee", verifyToken, employeeUpload.single("picture"), createEmployee)
 app.patch("/users/:userId/editUser", verifyToken, userUpload.single("picture"), editUser);
 
 //ROUTES
