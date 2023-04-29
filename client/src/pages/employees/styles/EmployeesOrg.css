@@ -18,3 +18,15 @@
   line-height: 1.5;
   padding: 10px;
 }
+
+.node-template.depth-1 {
+  border-color: red;
+}
+
+.node-template.depth-2 {
+  border-color: blue;
+}
+
+.node-template.depth-3 {
+  border-color: yellow;
+}

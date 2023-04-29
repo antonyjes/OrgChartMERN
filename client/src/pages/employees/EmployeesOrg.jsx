@@ -29,26 +29,24 @@ const EmployeesOrg = () => {
         email: employee.email,
         status: employee.status,
         children: [],
+        depth: 1,
       };
 
       nodesById[employee._id] = node;
     }
-
+    let root = null;
     // Then, add each employee node as a child of their manager's node
     for (const employee of data) {
       if (employee.nodeFatherId) {
         const managerNode = nodesById[employee.nodeFatherId];
         const employeeNode = nodesById[employee._id];
+        employeeNode.depth = managerNode.depth + 1;
         managerNode.children.push(employeeNode);
-      }
-    }
-
-    // Find the employee without a manager and use them as the root node
-    let root = null;
-    for (const employee of data) {
-      if (!employee.nodeFatherId) {
-        root = nodesById[employee._id];
-        break;
+      } else {
+        // If an employee doesn't have a manager, add them as the root node
+        const employeeNode = nodesById[employee._id];
+        employeeNode.depth = 1;
+        root = employeeNode;
       }
     }
 
@@ -57,7 +55,7 @@ const EmployeesOrg = () => {
 
   const nodeTemplate = (node) => {
     return (
-      <div className="node-template">
+      <div className={`node-template depth-${node.depth}`}>
         <div className="node-header">{node.name}</div>
         <div className="node-body">
           <div>Email: {node.email}</div>
