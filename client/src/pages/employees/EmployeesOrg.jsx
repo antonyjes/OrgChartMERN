@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import Aside from "../../components/Aside";
 import Sidebar from "../../components/Sidebar";
 import { useSelector } from "react-redux";
-import Tree from "react-d3-tree";
+import { OrganizationChart } from "primereact/organizationchart";
+import "./styles/EmployeesOrg.css";
 
 const EmployeesOrg = () => {
   const token = useSelector((state) => state.token);
@@ -19,22 +20,14 @@ const EmployeesOrg = () => {
   };
 
   const createTreeData = (data) => {
-    const root = {
-      name: "CEO",
-      attributes: { status: "CEO" },
-      children: [],
-    };
-
     const nodesById = {};
 
     // First, create a node for each employee and save it by ID
     for (const employee of data) {
       const node = {
         name: `${employee.firstName} ${employee.lastName}`,
-        attributes: {
-          email: employee.email,
-          status: employee.status,
-        },
+        email: employee.email,
+        status: employee.status,
         children: [],
       };
 
@@ -47,14 +40,31 @@ const EmployeesOrg = () => {
         const managerNode = nodesById[employee.nodeFatherId];
         const employeeNode = nodesById[employee._id];
         managerNode.children.push(employeeNode);
-      } else {
-        // If an employee doesn't have a manager, add them as a child of the root node
-        const employeeNode = nodesById[employee._id];
-        root.children.push(employeeNode);
       }
     }
-    console.log(root);
-    return root;
+
+    // Find the employee without a manager and use them as the root node
+    let root = null;
+    for (const employee of data) {
+      if (!employee.nodeFatherId) {
+        root = nodesById[employee._id];
+        break;
+      }
+    }
+
+    return [root];
+  };
+
+  const nodeTemplate = (node) => {
+    return (
+      <div className="node-template">
+        <div className="node-header">{node.name}</div>
+        <div className="node-body">
+          <div>Email: {node.email}</div>
+          <div>Status: {node.status}</div>
+        </div>
+      </div>
+    );
   };
 
   useEffect(() => {
@@ -67,24 +77,11 @@ const EmployeesOrg = () => {
       <Aside />
       <div className="p-4 sm:ml-64">
         <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
-          <div id="treeWrapper" style={{ width: '50em', height: '20em' }}>
+          <div id="treeWrapper" style={{ width: "50em", height: "20em" }}>
             {data && (
-              <Tree
-                data={createTreeData(data)}
-                orientation="vertical"
-                translate={{ x: 200, y: 200 }}
-                nodeSize={{ x: 200, y: 200 }}
-                collapsible={false}
-                separation={{ siblings: 1, nonSiblings: 1 }}
-                renderCustomNodeElement={(rd3tProps) => (
-                  <div>
-                    <p>
-                      {rd3tProps.nodeDatum.firstName}{" "}
-                      {rd3tProps.nodeDatum.lastName}
-                    </p>
-                    <p>{rd3tProps.nodeDatum.email}</p>
-                  </div>
-                )}
+              <OrganizationChart
+                value={createTreeData(data)}
+                nodeTemplate={nodeTemplate}
               />
             )}
           </div>
