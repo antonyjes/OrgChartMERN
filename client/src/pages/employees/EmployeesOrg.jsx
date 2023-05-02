@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
 import Aside from "../../components/Aside";
 import Sidebar from "../../components/Sidebar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { OrganizationChart } from "primereact/organizationchart";
 import "./styles/EmployeesOrg.css";
+import { setEmployees } from "../../state";
+import ModalEmployee from "./ModalEmployee";
 
 const EmployeesOrg = () => {
+  const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
-  const [data, setData] = useState(null);
+  const employees = useSelector((state) => state.employees);
+  const [showModal, setShowModal] = useState(false);
+  const [operation, setOperation] = useState("");
+  const [fatherId, setFatherId] = useState("");
+  const [currentEmployee, setCurrentEmployee] = useState([]);
 
   const getEmployeesData = async () => {
     const response = await fetch("http://localhost:3003/employees", {
@@ -16,7 +23,7 @@ const EmployeesOrg = () => {
     });
 
     const dataEmployees = await response.json();
-    setData(dataEmployees);
+    dispatch(setEmployees({ employees: dataEmployees }));
   };
 
   const createTreeData = (data) => {
@@ -25,9 +32,17 @@ const EmployeesOrg = () => {
     // First, create a node for each employee and save it by ID
     for (const employee of data) {
       const node = {
-        name: `${employee.firstName} ${employee.lastName}`,
+        id: employee._id,
+        firstName: employee.firstName,
+        lastName: employee.lastName,
         email: employee.email,
         status: employee.status,
+        phoneNumber: employee.phoneNumber,
+        proyectId: employee.proyectId,
+        proyectName: employee.proyectName,
+        areaId: employee.areaId,
+        areaName: employee.areaName,
+        position: employee.position,
         children: [],
         depth: 1,
       };
@@ -61,6 +76,35 @@ const EmployeesOrg = () => {
           <div>Email: {node.email}</div>
           <div>Status: {node.status}</div>
         </div>
+        <div className="flex flex-row">
+          <ul>
+            <li>
+              <button
+                onClick={() => {
+                  setShowModal(true);
+                  setOperation("Create");
+                  setFatherId(node.id);
+                }}
+              >
+                Add child
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => {
+                  setShowModal(true);
+                  setOperation("Edit");
+                  setCurrentEmployee(node);
+                }}
+              >
+                Edit
+              </button>
+            </li>
+            <li>
+              <button>Delete</button>
+            </li>
+          </ul>
+        </div>
       </div>
     );
   };
@@ -76,15 +120,24 @@ const EmployeesOrg = () => {
       <div className="p-4 sm:ml-64">
         <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
           <div id="treeWrapper" style={{ width: "50em", height: "20em" }}>
-            {data && (
+            {employees && (
               <OrganizationChart
-                value={createTreeData(data)}
+                value={createTreeData(employees)}
                 nodeTemplate={nodeTemplate}
               />
             )}
           </div>
         </div>
       </div>
+      {showModal && (
+        <ModalEmployee
+          setShowModal={setShowModal}
+          operation={operation}
+          fatherId={fatherId}
+          currentEmployee={currentEmployee}
+          getEmployees={getEmployeesData}
+        />
+      )}
     </>
   );
 };
