@@ -13,15 +13,9 @@ const ModalProyects = ({
     currentProyect.description || ""
   );
   const [status, setStatus] = useState(currentProyect.status || "");
-  const [dateInit, setDateInit] = useState(currentProyect.dateInit || "");
-  const [dateEnd, setDateEnd] = useState(currentProyect.dateEnd || "");
+  const [dateInit, setDateInit] = useState(currentProyect.dateInit || new Date().toISOString().split("T")[0]);
+  const [dateEnd, setDateEnd] = useState(currentProyect.dateEnd || new Date().toISOString().split("T")[0]);
   const token = useSelector((state) => state.token);
-
-  function dateFormated(date) {
-    let dateObj = new Date(date);
-    let formattedDate = dateObj.toISOString().slice(0, 10);
-    return formattedDate;
-  }
 
   const createProyect = async () => {
     const savedProyectResponse = await fetch(
@@ -164,7 +158,7 @@ const ModalProyects = ({
                 <input
                   type="date"
                   id="dateInit"
-                  value={dateFormated(dateInit)}
+                  value={dateInit}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   onChange={(e) => setDateInit(e.target.value)}
                   required
@@ -182,7 +176,7 @@ const ModalProyects = ({
                 <input
                   type="date"
                   id="dateEnd"
-                  value={dateFormated(dateEnd)}
+                  value={dateEnd}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   onChange={(e) => setDateEnd(e.target.value)}
                   required

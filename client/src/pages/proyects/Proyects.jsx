@@ -24,6 +24,12 @@ const Proyects = () => {
     dispatch(setProyects({ proyects: data }));
   };
 
+  function dateFormated(date) {
+    let dateObj = new Date(date);
+    let formattedDate = dateObj.toISOString().slice(0, 10);
+    return formattedDate;
+  }
+
   const PER_PAGE = 10;
   const offset = currentPage * PER_PAGE;
   const pageCount = Math.ceil(proyects.length / PER_PAGE);
@@ -43,8 +49,8 @@ const Proyects = () => {
         <td className="border px-4 py-2">{proyect.name}</td>
         <td className="border px-4 py-2">{proyect.description}</td>
         <td className="border px-4 py-2">{proyect.status}</td>
-        <td className="border px-4 py-2">{proyect.dateInit}</td>
-        <td className="border px-4 py-2">{proyect.dateEnd}</td>
+        <td className="border px-4 py-2">{dateFormated(proyect.dateInit)}</td>
+        <td className="border px-4 py-2">{dateFormated(proyect.dateEnd)}</td>
         <td className="border px-4 py-2">
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"

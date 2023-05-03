@@ -14,6 +14,7 @@ import authRoutes from "./routes/auth.js";
 import areaRoutes from "./routes/area.js";
 import userRoutes from "./routes/user.js";
 import employeeRoutes from "./routes/employee.js";
+import proyectRoutes from "./routes/proyect.js";
 import { verifyToken } from "./middleware/auth.js";
 import { createUser, editUser } from "./controllers/user.js";
 import { createEmployee } from "./controllers/employee.js";
@@ -84,6 +85,7 @@ app.use("/auth", authRoutes);
 app.use("/areas", areaRoutes);
 app.use("/users", userRoutes);
 app.use("/employees", employeeRoutes);
+app.use("/proyects", proyectRoutes);
 
 //MOONGOSE SETUP
 const PORT = process.env.PORT || 6001;
