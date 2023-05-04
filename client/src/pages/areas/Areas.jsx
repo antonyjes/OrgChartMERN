@@ -40,7 +40,7 @@ const Areas = () => {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-type": "application/json",
+          "Content-Type": "application/json",
         },
       }
     );

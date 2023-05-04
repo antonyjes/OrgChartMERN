@@ -5,6 +5,7 @@ import ReactPaginate from "react-paginate";
 import Sidebar from "../../components/Sidebar";
 import Aside from "../../components/Aside";
 import ModalProyects from "./ModalProyect";
+import { toast } from "react-toastify";
 
 const Proyects = () => {
   const dispatch = useDispatch();
@@ -38,6 +39,22 @@ const Proyects = () => {
     setCurrentPage(selectedPage);
   };
 
+  const handleDelete = async (proyectId) => {
+    const response = await fetch(
+      `http://localhost:3003/proyects/${proyectId}/delete`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(response);
+    toast.success("Proyect deleted!");
+    getProyects();
+  };
+
   useEffect(() => {
     getProyects();
   }, []); //eslint-disable-line
@@ -62,7 +79,10 @@ const Proyects = () => {
           >
             Edit
           </button>
-          <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+          <button
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => handleDelete(proyect._id)}
+          >
             Delete
           </button>
         </td>

@@ -13,19 +13,22 @@ const ModalProyects = ({
     currentProyect.description || ""
   );
   const [status, setStatus] = useState(currentProyect.status || "");
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
   const [dateInit, setDateInit] = useState(
-    dateFormated(currentProyect.dateInit) || new Date().toISOString().split("T")[0]
+    currentProyect.dateInit ? formatDate(new Date(currentProyect.dateInit)) : formatDate(new Date())
   );
+  
   const [dateEnd, setDateEnd] = useState(
-    dateFormated(currentProyect.dateEnd) || new Date().toISOString().split("T")[0]
+    currentProyect.dateEnd ? formatDate(new Date(currentProyect.dateEnd)) : formatDate(new Date())
   );
   const token = useSelector((state) => state.token);
 
-  function dateFormated(date) {
-    let dateObj = new Date(date);
-    let formattedDate = dateObj.toISOString().slice(0, 10);
-    return formattedDate;
-  }
+  
 
   const createProyect = async () => {
     const savedProyectResponse = await fetch(

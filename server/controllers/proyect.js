@@ -45,3 +45,14 @@ export const editProyect = async (req, res) => {
     res.status(409).json({ message: error.message });
   }
 };
+
+// DELETE
+export const deleteProyect = async (req, res) => {
+  try {
+    const { proyectId } = req.params;
+    const deletedProyect = await Proyect.findByIdAndDelete(proyectId);
+    res.status(201).json(deletedProyect);
+  } catch (error) {
+    res.status(409).json({ message: error.message });
+  }
+};
