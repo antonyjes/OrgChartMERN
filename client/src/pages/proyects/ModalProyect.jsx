@@ -13,9 +13,19 @@ const ModalProyects = ({
     currentProyect.description || ""
   );
   const [status, setStatus] = useState(currentProyect.status || "");
-  const [dateInit, setDateInit] = useState(currentProyect.dateInit || new Date().toISOString().split("T")[0]);
-  const [dateEnd, setDateEnd] = useState(currentProyect.dateEnd || new Date().toISOString().split("T")[0]);
+  const [dateInit, setDateInit] = useState(
+    dateFormated(currentProyect.dateInit) || new Date().toISOString().split("T")[0]
+  );
+  const [dateEnd, setDateEnd] = useState(
+    dateFormated(currentProyect.dateEnd) || new Date().toISOString().split("T")[0]
+  );
   const token = useSelector((state) => state.token);
+
+  function dateFormated(date) {
+    let dateObj = new Date(date);
+    let formattedDate = dateObj.toISOString().slice(0, 10);
+    return formattedDate;
+  }
 
   const createProyect = async () => {
     const savedProyectResponse = await fetch(
