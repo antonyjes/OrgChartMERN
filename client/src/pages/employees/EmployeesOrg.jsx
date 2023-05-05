@@ -11,6 +11,8 @@ const EmployeesOrg = () => {
   const [data, setData] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [fatherId, setFatherId] = useState("");
+  const [operation, setOperation] = useState("");
+  const [currentEmployee, setCurrentEmployee] = useState([]);
 
   const getEmployeesData = async () => {
     const response = await fetch("http://localhost:3003/employees", {
@@ -69,9 +71,19 @@ const EmployeesOrg = () => {
               onClick={() => {
                 setShowModal(true);
                 setFatherId(node.employeeData._id);
+                setOperation("Create");
               }}
             >
               Add child
+            </button>
+            <button
+              onClick={() => {
+                setShowModal(true);
+                setOperation("Edit");
+                setCurrentEmployee(node.employeeData);
+              }}
+            >
+              Edit
             </button>
           </div>
         </div>
@@ -100,7 +112,13 @@ const EmployeesOrg = () => {
         </div>
       </div>
       {showModal && (
-        <ModalEmployee setShowModal={setShowModal} fatherId={fatherId} />
+        <ModalEmployee
+          setShowModal={setShowModal}
+          fatherId={fatherId}
+          operation={operation}
+          currentEmployee={currentEmployee}
+          getEmployeesData={getEmployeesData}
+        />
       )}
     </>
   );
