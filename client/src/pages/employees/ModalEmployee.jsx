@@ -88,7 +88,35 @@ const ModalEmployee = ({
     }
   };
 
-  const editEmployee = async () => {};
+  const editEmployee = async () => {
+    const formData = new FormData();
+    formData.append("firstName", firstName);
+    formData.append("lastName" ,lastName);
+    formData.append("email", email);
+    formData.append("status", status);
+    formData.append("phoneNumber", phoneNumber);
+    formData.append("proyectId", proyectId);
+    formData.append("areaId", areaId);
+    formData.append("position", position);
+    formData.append("picture", fileValue);
+    formData.append("picturePath", filename);
+
+    const updatedEmployeeResponse = await fetch(
+      `http://localhost:3003/employees/${currentEmployee._id}/editEmployee`, {
+        method: "PATCH",
+        headers: {Authorization: `Bearer ${token}`},
+        body: formData,
+      }
+    );
+
+    const updatedEmployee = await updatedEmployeeResponse.json();
+
+    if (updatedEmployee) {
+      setShowModal(false);
+      toast.success("Employee updated!");
+      getEmployeesData();
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
