@@ -27,7 +27,10 @@ export const createEmployee = async (req, res) => {
       areaId,
       position,
     } = req.body;
-    const proyect = await Proyect.findById(proyectId);
+    let proyect = null;
+    if (proyectId) {
+      proyect = await Proyect.findById(proyectId);
+    }
     const area = await Area.findById(areaId);
     const newEmployee = new Employee({
       firstName,
@@ -37,15 +40,16 @@ export const createEmployee = async (req, res) => {
       phoneNumber,
       nodeFatherId,
       proyectId,
-      proyectName: proyectId ? proyect.name : "",
+      proyectName: proyect ? proyect.name : "",
       areaId,
-      areaName: areaId ? area.name : "",
+      areaName: area ? area.name : "",
       position,
       picturePath: req.file ? req.file.filename : "",
     });
     const savedEmployee = await newEmployee.save();
     res.status(201).json(savedEmployee);
   } catch (error) {
+    console.log(error);
     res.status(409).json({ message: error.message });
   }
 };
@@ -65,7 +69,10 @@ export const editEmployee = async (req, res) => {
       position,
     } = req.body;
     const employee = await Employee.findById(employeeId);
-    const proyect = await Proyect.findById(proyectId);
+    let proyect = null;
+    if (proyectId) {
+      proyect = await Proyect.findById(proyectId);
+    }
     const area = await Area.findById(areaId);
 
     let befPicturePath = employee.picturePath;
@@ -87,9 +94,9 @@ export const editEmployee = async (req, res) => {
         status,
         phoneNumber,
         proyectId,
-        proyectName: proyect.name,
+        proyectName: proyect ? proyect.name : "",
         areaId,
-        areaName: area.name,
+        areaName: areaId ? area.name : "",
         position,
         picturePath: befPicturePath,
       },

@@ -66,7 +66,7 @@ const EmployeesOrg = () => {
         <div className="node-body">
           <div>Email: {node.email}</div>
           <div>Position: {node.position}</div>
-          <div>
+          <div className="flex gap-1 flex-row">
             <button
               onClick={() => {
                 setShowModal(true);
@@ -85,6 +85,11 @@ const EmployeesOrg = () => {
             >
               Edit
             </button>
+            {
+              node.depth !== 1 && (
+                <button>Delete</button>
+              )
+            }
           </div>
         </div>
       </div>
