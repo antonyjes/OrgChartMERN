@@ -1,6 +1,5 @@
 .node-template {
   width: 200px;
-  height: 100px;
   background-color: #fff;
   border: 1px solid #ccc;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -10,7 +9,6 @@
 
 .node-template .node-header {
   font-weight: bold;
-  margin-bottom: 10px;
 }
 
 .node-template .node-body {

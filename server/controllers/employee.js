@@ -15,14 +15,14 @@ export const getEmployeesOrg = async (req, res) => {
 // CREATE
 export const createEmployee = async (req, res) => {
   try {
-    const {firstName, lastName, email, phoneNumber, nodeFatherId, proyectId, areaId, position} = req.body;
+    const {firstName, lastName, email, status, phoneNumber, nodeFatherId, proyectId, areaId, position} = req.body;
     const proyect = await Proyect.findById(proyectId);
     const area = await Area.findById(areaId);
     const newEmployee = new Employee({
       firstName,
       lastName,
       email,
-      status: "Active",
+      status,
       phoneNumber,
       nodeFatherId,
       proyectId,
