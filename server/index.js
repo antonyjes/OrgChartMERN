@@ -17,7 +17,7 @@ import employeeRoutes from "./routes/employee.js";
 import proyectRoutes from "./routes/proyect.js";
 import { verifyToken } from "./middleware/auth.js";
 import { createUser, editUser } from "./controllers/user.js";
-import { createEmployee } from "./controllers/employee.js";
+import { createEmployee, editEmployee } from "./controllers/employee.js";
 
 //CONFIGURATIONS
 const __filename = fileURLToPath(import.meta.url);
@@ -77,7 +77,8 @@ app.post(
   verifyToken,
   createUser
 );
-app.post("/employees/createEmployee", verifyToken, employeeUpload.single("picture"), createEmployee)
+app.post("/employees/createEmployee", verifyToken, employeeUpload.single("picture"), createEmployee);
+app.patch("/employees/:employeeId/editEmployee", verifyToken, employeeUpload.single("picture"), editEmployee);
 app.patch("/users/:userId/editUser", verifyToken, userUpload.single("picture"), editUser);
 
 //ROUTES
