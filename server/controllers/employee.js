@@ -110,7 +110,7 @@ export const editEmployee = async (req, res) => {
 };
 
 // DELETE
-export const deleteEmployee = async () => {
+export const deleteEmployee = async (req, res) => {
   try {
     const { employeeId } = req.params;
     const deletedEmployee = await Employee.findByIdAndDelete(employeeId);
@@ -121,7 +121,18 @@ export const deleteEmployee = async () => {
         console.log("File deleted!");
       });
     }
-    await Employee.deleteMany({ nodeFatherId: employeeId });
+    const employeesToDelete = await Employee.find({ nodeFatherId: employeeId });
+    for (const employee of employeesToDelete) {
+      const deletedEmployee = await Employee.findByIdAndDelete(employee._id);
+      const filePath =
+        "./public/assets/employees/" + deletedEmployee.picturePath;
+      if (fs.existsSync(filePath)) {
+        fs.unlink(filePath, function (err) {
+          if (err) throw err;
+          console.log("File deleted!");
+        });
+      }
+    }
     res.status(200).json(deletedEmployee);
   } catch (error) {
     res.status(409).json({ message: error.message });

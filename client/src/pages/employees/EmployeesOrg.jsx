@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { OrganizationChart } from "primereact/organizationchart";
 import "./styles/EmployeesOrg.css";
 import ModalEmployee from "./ModalEmployee";
+import { toast } from "react-toastify";
 
 const EmployeesOrg = () => {
   const token = useSelector((state) => state.token);
@@ -59,6 +60,22 @@ const EmployeesOrg = () => {
     return [root];
   };
 
+  const handleDelete = async (employeeId) => {
+    const response = await fetch(
+      `http://localhost:3003/employees/${employeeId}/delete`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(response);
+    toast.success("Employee deleted!");
+    getEmployeesData();
+  };
+
   const nodeTemplate = (node) => {
     return (
       <div className={`node-template depth-${node.depth}`}>
@@ -88,7 +105,10 @@ const EmployeesOrg = () => {
               Edit
             </button>
             {node.depth !== 1 && (
-              <button className="px-2 py-1 rounded bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+              <button
+                className="px-2 py-1 rounded bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                onClick={() => handleDelete(node.employeeData._id)}
+              >
                 Delete
               </button>
             )}
@@ -107,7 +127,10 @@ const EmployeesOrg = () => {
       <Sidebar />
       <Aside />
       <div className="p-4 sm:ml-64">
-        <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14" style={{ height: "calc(100vh - 24rem)" }}>
+        <div
+          className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14"
+          style={{ height: "calc(100vh - 24rem)" }}
+        >
           <div id="treeWrapper" style={{ width: "50em", height: "20em" }}>
             {data && (
               <OrganizationChart
