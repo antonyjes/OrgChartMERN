@@ -108,3 +108,22 @@ export const editEmployee = async (req, res) => {
     res.status(409).json({ message: error.message });
   }
 };
+
+// DELETE
+export const deleteEmployee = async () => {
+  try {
+    const { employeeId } = req.params;
+    const deletedEmployee = await Employee.findByIdAndDelete(employeeId);
+    const filePath = "./public/assets/employees/" + deletedEmployee.picturePath;
+    if (fs.existsSync(filePath)) {
+      fs.unlink(filePath, function (err) {
+        if (err) throw err;
+        console.log("File deleted!");
+      });
+    }
+    await Employee.deleteMany({ nodeFatherId: employeeId });
+    res.status(200).json(deletedEmployee);
+  } catch (error) {
+    res.status(409).json({ message: error.message });
+  }
+};
