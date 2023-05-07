@@ -29,3 +29,35 @@
 .node-template.depth-3 {
   border-color: yellow;
 }
+
+.node-tooltip {
+  width: 200px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+}
+
+.tooltip-header {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.tooltip-body {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.tooltip-image {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.tooltip-image img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
