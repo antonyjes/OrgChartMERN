@@ -62,21 +62,23 @@ const EmployeesOrg = () => {
   const nodeTemplate = (node) => {
     return (
       <div className={`node-template depth-${node.depth}`}>
-        <div className="node-header">{node.name}</div>
-        <div className="node-body">
-          <div>Email: {node.email}</div>
-          <div>Position: {node.position}</div>
-          <div className="flex gap-1 flex-row">
+        <div className="node-header text-xl">{node.name}</div>
+        <div className="node-body mt-2">
+          <div className="text-sm mb-1">Email: {node.email}</div>
+          <div className="text-sm mb-1">Position: {node.position}</div>
+          <div className="flex gap-1 flex-row justify-center">
             <button
+              className="px-2 py-1 rounded bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               onClick={() => {
                 setShowModal(true);
                 setFatherId(node.employeeData._id);
                 setOperation("Create");
               }}
             >
-              Add child
+              Add
             </button>
             <button
+              className="px-2 py-1 rounded bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
               onClick={() => {
                 setShowModal(true);
                 setOperation("Edit");
@@ -85,11 +87,11 @@ const EmployeesOrg = () => {
             >
               Edit
             </button>
-            {
-              node.depth !== 1 && (
-                <button>Delete</button>
-              )
-            }
+            {node.depth !== 1 && (
+              <button className="px-2 py-1 rounded bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                Delete
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -105,7 +107,7 @@ const EmployeesOrg = () => {
       <Sidebar />
       <Aside />
       <div className="p-4 sm:ml-64">
-        <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
+        <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14" style={{ height: "calc(100vh - 24rem)" }}>
           <div id="treeWrapper" style={{ width: "50em", height: "20em" }}>
             {data && (
               <OrganizationChart
