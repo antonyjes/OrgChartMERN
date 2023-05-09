@@ -77,3 +77,31 @@
   display: inline-block;
   position: relative;
 }
+
+@media print {
+  /* Define styles for the printed page */
+  body {
+    font-size: 12pt;
+  }
+  #container-org {
+    overflow: visible;
+    height: auto;
+    transform: rotate(90deg);
+    border: none;
+  }
+  .node-template {
+    page-break-after: always;
+  }
+  .sidebar {
+    display: none;
+  }
+  #aside {
+    display: none;
+  }
+  #print-button {
+    display: none;
+  }
+  .node-actions {
+    display: none;
+  }
+}

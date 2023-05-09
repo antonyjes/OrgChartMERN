@@ -91,7 +91,7 @@ const EmployeesOrg = () => {
         <div className="node-body mt-2">
           <div className="text-sm mb-1">Email: {node.email}</div>
           <div className="text-sm mb-1">Position: {node.position}</div>
-          <div className="flex gap-1 flex-row justify-center">
+          <div className="flex gap-1 flex-row justify-center node-actions">
             <button
               className="px-2 py-1 rounded bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               onClick={() => {
@@ -145,10 +145,17 @@ const EmployeesOrg = () => {
       <Aside />
       <div className="p-4 sm:ml-64">
         <div
-          className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14"
+          id="container-org"
+          className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14 overflow-auto"
           style={{ height: "calc(100vh - 24rem)" }}
         >
-          <button onClick={() => window.print()}>Print</button>
+          <button
+            onClick={() => window.print()}
+            id="print-button"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+          >
+            Print
+          </button>
           <div id="treeWrapper" style={{ width: "50em", height: "20em" }}>
             {data && (
               <OrganizationChart
