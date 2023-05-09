@@ -80,6 +80,8 @@ const EmployeesOrg = () => {
   };
 
   const nodeTemplate = (node) => {
+    const rightSpace = window.innerWidth - node.x - node.width;
+    const tooltipPlace = rightSpace > 200 ? "right" : "left";
     return (
       <div className={`node-template depth-${node.depth}`} data-tooltip-id={`node-${node.employeeData._id}`}>
         <div className="node-header text-xl">{node.name}</div>
@@ -117,7 +119,7 @@ const EmployeesOrg = () => {
             )}
           </div>
         </div>
-        <Tooltip id={`node-${node.employeeData._id}`} place="right" effect="solid">
+        <Tooltip id={`node-${node.employeeData._id}`} place={tooltipPlace} effect="solid" globalEventOff="click" className="react-tooltip">
           <NodeTooltip node={node}/>
         </Tooltip>
       </div>

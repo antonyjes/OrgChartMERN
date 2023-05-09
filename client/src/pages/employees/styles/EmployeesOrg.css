@@ -61,3 +61,19 @@
   height: 100px;
   object-fit: cover;
 }
+
+/* Increase z-index of tooltip container */
+.react-tooltip {
+  z-index: 9999;
+}
+
+.p-organizationchart-table > tbody > tr > td {
+  text-align: center;
+  vertical-align: top;
+  padding: 0 0.75rem;
+}
+
+.p-organizationchart-node-content {
+  display: inline-block;
+  position: relative;
+}
