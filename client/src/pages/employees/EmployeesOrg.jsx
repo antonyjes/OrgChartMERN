@@ -6,9 +6,9 @@ import { OrganizationChart } from "primereact/organizationchart";
 import "./styles/EmployeesOrg.css";
 import ModalEmployee from "./ModalEmployee";
 import { toast } from "react-toastify";
-import {Tooltip} from "react-tooltip";
+import { Tooltip } from "react-tooltip";
 import NodeTooltip from "./NodeTooltip";
-import 'react-tooltip/dist/react-tooltip.css'
+import "react-tooltip/dist/react-tooltip.css";
 
 const EmployeesOrg = () => {
   const token = useSelector((state) => state.token);
@@ -83,7 +83,10 @@ const EmployeesOrg = () => {
     const rightSpace = window.innerWidth - node.x - node.width;
     const tooltipPlace = rightSpace > 200 ? "right" : "left";
     return (
-      <div className={`node-template depth-${node.depth}`} data-tooltip-id={`node-${node.employeeData._id}`}>
+      <div
+        className={`node-template depth-${node.depth}`}
+        data-tooltip-id={`node-${node.employeeData._id}`}
+      >
         <div className="node-header text-xl">{node.name}</div>
         <div className="node-body mt-2">
           <div className="text-sm mb-1">Email: {node.email}</div>
@@ -119,8 +122,14 @@ const EmployeesOrg = () => {
             )}
           </div>
         </div>
-        <Tooltip id={`node-${node.employeeData._id}`} place={tooltipPlace} effect="solid" globalEventOff="click" className="react-tooltip">
-          <NodeTooltip node={node}/>
+        <Tooltip
+          id={`node-${node.employeeData._id}`}
+          place={tooltipPlace}
+          effect="solid"
+          globalEventOff="click"
+          className="react-tooltip"
+        >
+          <NodeTooltip node={node} />
         </Tooltip>
       </div>
     );
